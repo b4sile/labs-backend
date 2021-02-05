@@ -2,9 +2,11 @@ import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import { router } from './routes';
+import './db';
+import './models';
 
 dotenv.config();
-
 const app = express();
 
 app.disable('x-powered-by');
@@ -12,9 +14,7 @@ app.disable('x-powered-by');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.send('hello');
-});
+app.use('/', router);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
