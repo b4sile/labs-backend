@@ -1,3 +1,5 @@
+export { Image } from './Image';
+
 var DataTypes = require('sequelize').DataTypes;
 var _dep = require('./dep');
 var _pers = require('./pers');
