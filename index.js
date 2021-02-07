@@ -12,6 +12,8 @@ const app = express();
 
 app.disable('x-powered-by');
 
+app.use(express.static(__dirname + '/tmp'));
+
 app.use(
   logger('dev', {
     skip: () => app.get('env') === 'test',

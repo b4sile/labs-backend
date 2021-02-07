@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../db';
 
-export const Image = sequelize.define('Image', {
+export const Images = sequelize.define('Images', {
   filename: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,8 +14,8 @@ export const Image = sequelize.define('Image', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  size: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 });

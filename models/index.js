@@ -1,4 +1,5 @@
-export { Image } from './Image';
+import { Images } from './Image';
+import { sequelize } from '../db';
 
 var DataTypes = require('sequelize').DataTypes;
 var _dep = require('./dep');
@@ -6,7 +7,6 @@ var _pers = require('./pers');
 var _square = require('./square');
 var _war_pers = require('./war_pers');
 var _wars = require('./wars');
-import { sequelize } from '../db';
 
 function initModels(sequelize) {
   var dep = _dep(sequelize, DataTypes);
@@ -21,6 +21,7 @@ function initModels(sequelize) {
     square,
     war_pers,
     wars,
+    Images,
   };
 }
 
