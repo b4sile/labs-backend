@@ -1,11 +1,13 @@
 import { Images } from './Image';
 import { Parser } from './Parser';
+import { Questionnaries } from './Questionnaires';
 import { sequelize, infoDb } from '../db';
 
 function initModels(sequelize) {
   return {
     Images,
     Parser,
+    Questionnaries,
   };
 }
 

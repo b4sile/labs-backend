@@ -13,6 +13,7 @@ const ratingSelector = '.reviewer-rating .average-num';
 const wishSelector = '.wish-btn';
 const poaSelector = '.product-poa > div';
 const poaVariables = (num) => `${poaSelector}:nth-child(${num}) .block-cnt a`;
+const timeout = 500;
 
 export const parsePage = async (url) => {
   try {
@@ -48,7 +49,7 @@ export const parsePage = async (url) => {
             !(await page.$eval(currSel, (d) => d.classList.contains('active')))
           ) {
             await page.click(currSel);
-            await page.waitForTimeout(500);
+            await page.waitForTimeout(timeout);
           }
           const firstVariable = await page.$eval(
             currSel,
@@ -70,7 +71,7 @@ export const parsePage = async (url) => {
                 ))
               ) {
                 await page.click(currSel);
-                await page.waitForTimeout(500);
+                await page.waitForTimeout(timeout);
               }
               const secondVariable = await page.$eval(
                 currSel,
@@ -84,14 +85,14 @@ export const parsePage = async (url) => {
                 whValue,
               });
               await page.click(currSel);
-              await page.waitForTimeout(500);
+              await page.waitForTimeout(timeout);
             }
           } else {
             await parseData({ page, variants, whValue, firstVariable });
           }
 
           await page.click(currSel);
-          await page.waitForTimeout(500);
+          await page.waitForTimeout(timeout);
         }
       } else {
         await parseData({ page, variants, whValue });
