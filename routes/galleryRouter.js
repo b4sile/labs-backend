@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { models } from '../models';
 import sharp from 'sharp';
+import fs from 'fs';
 
 export const galleryRouter = Router();
 
@@ -42,6 +43,9 @@ galleryRouter.get('/', async (req, res) => {
 });
 
 galleryRouter.post('/', upload.array('images', 7), async (req, res) => {
+  const overlay = `<svg width="${500}" height="${30}">
+    <text x="50%" y="50%" font-family="sans-serif" font-size="16" text-anchor="middle">${new Date()}</text>
+  </svg>`;
   const files = req.files;
   try {
     const thumbsPromises = files.map((file) =>
@@ -50,6 +54,16 @@ galleryRouter.post('/', upload.array('images', 7), async (req, res) => {
         .toFile('tmp/thumbs/' + 'thumb-' + file.filename)
     );
     const thumbsImages = await Promise.all(thumbsPromises);
+    const dateImages = files.map((file) => {
+      sharp(file.path)
+        .composite([{ input: Buffer.from(overlay), gravity: 'south' }])
+        .toBuffer((err, buffer) => {
+          fs.writeFile(file.path, buffer, (err) => {
+            console.log(err);
+          });
+        });
+    });
+    Promise.all(dateImages);
     const imagesPromises = files.map((file, ind) =>
       Images.create({
         filename: file.originalname,
@@ -69,7 +83,7 @@ galleryRouter.patch('/:id', async (req, res) => {
   const { description } = req.body;
   try {
     await Images.update({ description }, { where: { id } });
-    res.json({ ok: 'ok' });
+    res.json({ status: 'ok' });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
@@ -79,7 +93,7 @@ galleryRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     await Images.destroy({ where: { id } });
-    res.json({ ok: 'ok' });
+    res.json({ status: 'ok' });
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
