@@ -1,5 +1,8 @@
 import { Images } from './Image';
 import { Parser } from './Parser';
+import { License } from './License';
+import { ProductSku } from './ProductSku';
+import { ProductFamily } from './ProductFamily';
 import { Questionnaries } from './Questionnaires';
 import { sequelize, infoDb } from '../db';
 
@@ -8,8 +11,15 @@ function initModels(sequelize) {
     Images,
     Parser,
     Questionnaries,
+    ProductSku,
+    ProductFamily,
+    License,
   };
 }
+
+ProductFamily.hasMany(ProductSku);
+ProductFamily.belongsTo(License);
+License.hasMany(ProductFamily);
 
 export const models = initModels(sequelize);
 
